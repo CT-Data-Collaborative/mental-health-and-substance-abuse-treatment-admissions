@@ -1,0 +1,327 @@
+{
+  "name": "mental-health-and-substance-abuse-treatment-admissions",
+  "datapackage_version": "1.0-beta.18",
+  "title": "Mental Health and Substance Abuse Treatment Admissions",
+  "description": "Mental Health and Substance Abuse Treatment Admissions reports the number, percent, and rate of admissions to Mental Health and Substance Abuse programs, as reported to the Connecticut Department of Mental Health and Addiction Services (DMHAS), and organized by town and fiscal year.",
+  "version": "1.0",
+  "licenses": [{
+    "url": "http://opendatacommons.org/licenses/pddl/",
+    "name": "Open Data Commons Public Domain",
+    "version": "1.0",
+    "id": "odc-pddl"
+  }],
+  "sources": [{
+    "name": "ctdmhas",
+    "web": ""
+  }],
+  "author":[{
+    "name": "Jenna Daly",
+    "email": "jdaly@ctdata.org",
+    "web": "http://ctdata.org"
+  }],
+  "contributor": [],
+  "resources": [{
+    "path": "data/dmhas_admissions_2015.csv",
+    "format": "csv",
+    "schema": {
+      "fields": [{
+          "name": "Town",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "FIPS",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "Year",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "Admission Type",
+          "type": "string",
+          "dimension": true, 
+          "constraints": {
+            "enum": [
+              "Mental Health", 
+              "Substance Abuse", 
+              "Mental Health and Substance Abuse", 
+              "Total"
+            ]
+          }     
+        }, {          
+          "name": "Measure Type",
+          "type": "string",
+          "dimension": true, 
+          "constraints": {
+            "enum": [
+              "Number", 
+              "Percent", 
+              "Rate (per 10,000)"
+            ]
+          }     
+        }, {
+          "name": "Variable",
+          "type": "string",
+          "dimension": true, 
+          "constraints": {
+            "enum": [
+              "DMHAS Admissions", 
+              "Margins of Error"
+            ]
+          }     
+        }, {
+          "name": "Value",
+          "type": "number",
+          "dimension": false
+        }]
+      }
+    }
+  ],
+  "last_modified": "10/16/2017",
+  "ckan_extras": {
+    "full_description": {
+      "ckan_name": "Full Description",
+      "value": "The Connecticut Department of Mental Health and Addiction Services runs many programs providing services and support to those with Mental Health and/or Substance Abuse problems. This dataset reports the number and percent of admissions for Mental Health programs, Substance Abuse programs, the number of individuals admitted for both types of programs, as well as the total number of all admissions. Data are also available detailing the rate of admissions per 10,000 people in the population. Mental Health and Substance Abuse treatment admissions include admissions to both public and private non-profit programs that receive DMHAS funding. All data is for residents 18 and older.",
+      "type": "string"
+    },
+    "suppression": {
+      "ckan_name": "Suppression",
+      "value": "Towns with less than 15 admissions are suppressed.",
+      "type": "string"
+    },
+    "technical_notes": {
+      "ckan_name": "Technical Notes",
+      "value": "Years in this dataset reflect Fiscal Years for the CTDMHAS. FY 2015 is July 2014 through June 2015.",
+      "type": "string"
+    },
+    "socrata": {
+      "ckan_name": "Socrata",
+      "value": "False",
+      "type": "string"
+    },
+    "socrata_url": {
+      "ckan_name": "Socrata Dataset URL",
+      "value": "",
+      "type": "string"
+    },
+    "socrata_dataset_name": {
+      "ckan_name": "Socrata Dataset Name",
+      "value": "",
+      "type": "string"
+    }, 
+    "domain": {
+      "ckan_name": "Domain",
+      "value": "Health",
+      "type": "string"
+    },
+    "subdomain": {
+      "ckan_name": "Subdomain",
+      "value": "Mental Health",
+      "type": "string"
+    },
+    "numerator": {
+      "ckan_name": "Numerator",
+      "value": "Number of admissions by category.",
+      "type": "string"
+    },
+    "denominator": {
+      "ckan_name": "Denominator",
+      "value": "For percents, the total number of admissions. For rate, 10,000's of populace.",
+      "type": "string"
+    },    
+    "geography": {
+      "ckan_name": "Geography",
+      "value": "Town",
+      "type": "string",
+      "constraints": {"enum": ["Town", "County", "Town/County", "District", "Other"]}
+    },
+    "frequency": {
+      "ckan_name": "Frequency",
+      "value": "Annual",
+      "type": "string"
+    },
+    "years_in_catalog": {
+      "ckan_name": "Years in Catalog",
+      "value": ["2010", "2011", "2012", "2013", "2014", "2015"],
+      "type": "array"
+    },
+    "latest_year": {
+      "ckan_name": "Latest Year Available",
+      "value": "2015",
+      "type": "string"
+    },
+    "disabled_views": {
+      "ckan_name": "Disabled Views",
+      "value": [],
+      "type": "array",
+      "constraints": {"enum": ["map", "table", "bar", "line"]}
+    },
+    "units": {
+      "ckan_name": "Units",
+      "value": {
+        "Number": "",
+        "Percent": "%"
+      }
+    },
+    "expected_number_of_geographies": {
+      "ckan_name": "Expected Number of Unique Geographies",
+      "value": 169,
+      "type": "string"
+    },
+    "default": {
+      "ckan_name": "Default",
+      "value": {
+        "Measure Type": "Number",
+        "Town": "Hartford",
+        "Year": ["2015"],
+        "Variable": "DMHAS Admissions", 
+        "Admission Type": "Total"
+      },
+      "type": "object"
+    }
+  },
+  "spot_checks": [
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Canaan",
+        "Year": "2015",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Substance Abuse",
+        "Measure Type": "Number"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 38
+      }
+    },
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Lyme",
+        "Year": "2010",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Total",
+        "Measure Type": "Number"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": -9999
+      }
+    },    
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Wallingford",
+        "Year": "2013",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Mental Health",
+        "Measure Type": "Percent"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 42.75
+      }
+    },   
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Vernon",
+        "Year": "2011",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Mental Health and Substance Abuse",
+        "Measure Type": "Rate (per 10,000)"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 16.44
+      }
+    },    
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Goshen",
+        "Year": "2012",
+        "Variable": "Margins of Error",
+        "Admission Type": "Total",
+        "Measure Type": "Rate (per 10,000)"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 1.00
+      }
+    },     
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Darien",
+        "Year": "2014",
+        "Variable": "Margins of Error",
+        "Admission Type": "Substance Abuse",
+        "Measure Type": "Rate (per 10,000)"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 0.04
+      }
+    },      
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Greenwich",
+        "Year": "2015",
+        "Variable": "Margins of Error",
+        "Admission Type": "Mental Health",
+        "Measure Type": "Rate (per 10,000)"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 0.03
+      }
+    },    
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Bloomfield",
+        "Year": "2010",
+        "Variable": "Margins of Error",
+        "Admission Type": "Mental Health and Substance Abuse",
+        "Measure Type": "Rate (per 10,000)"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 0.01
+      }
+    }       
+  ],
+  "dimension_groups" : [
+    {
+      "Admission Type": ["Mental Health", "Substance Abuse", "Mental Health and Substance Abuse"],
+      "Measure Type": ["Number", "Percent"],
+      "Variable": ["DMHAS Admissions"]
+    },
+    {
+      "Admission Type": ["Mental Health", "Substance Abuse", "Mental Health and Substance Abuse"],
+      "Measure Type": ["Rate (per 10,000)"],
+      "Variable": ["DMHAS Admissions", "Margins of Error"]
+    },    
+    {
+      "Unit Type": ["Total"],
+      "Measure Type": ["Number"],
+      "Variable": ["DMHAS Admissions"]
+    }, 
+    {
+      "Unit Type": ["Total"],
+      "Measure Type": ["Rate (per 10,000)"],
+      "Variable": ["DMHAS Admissions", "Margins of Error"]
+    }    
+  ]
+}
