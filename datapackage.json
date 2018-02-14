@@ -21,7 +21,7 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/dmhas_admissions_2015.csv",
+    "path": "data/dmhas_admissions_2016.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -77,7 +77,7 @@
       }
     }
   ],
-  "last_modified": "10/16/2017",
+  "last_modified": "02/14/2018",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
@@ -91,7 +91,7 @@
     },
     "technical_notes": {
       "ckan_name": "Technical Notes",
-      "value": "Years in this dataset reflect Fiscal Years for the CTDMHAS. FY 2015 is July 2014 through June 2015.",
+      "value": "Years in this dataset reflect Fiscal Years for the CTDMHAS. FY 2016 is July 2015 through June 2016.",
       "type": "string"
     },
     "socrata": {
@@ -142,12 +142,12 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2010", "2011", "2012", "2013", "2014", "2015"],
+      "value": ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "2015",
+      "value": "2016",
       "type": "string"
     },
     "disabled_views": {
@@ -172,10 +172,10 @@
       "ckan_name": "Default",
       "value": {
         "Measure Type": "Number",
-        "Town": "Hartford",
-        "Year": ["2015"],
+        "Town": "Connecticut",
+        "Year": ["2016"],
         "Variable": "DMHAS Admissions", 
-        "Admission Type": "Total"
+        "Admission Type": ["Mental Health", "Substance Abuse", "Mental Health and Substance Abuse", "Total"]
       },
       "type": "object"
     }
@@ -300,7 +300,22 @@
         "number type": "float",
         "value": 0.01
       }
-    }       
+    },
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Hebron",
+        "Year": "2016",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Mental Health",
+        "Measure Type": "Number"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 62
+      }
+    }
   ],
   "dimension_groups" : [
     {

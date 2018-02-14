@@ -39,13 +39,13 @@ for (i in 1:length(mysheets)) {
 }
 
 #Bring in files after 15
-# for (i in 1:length(adm_csvs)) {
-#   current_file <- read.csv(paste0(path_to_raw, "/", adm_csvs[1]), stringsAsFactors=F, header=T, check.names=F)
-#   get_year <- unlist(gsub("[^0-9]", "", unlist(adm_csvs[1])), "")
-#   get_year <- as.numeric(get_year) + 2000
-#   current_file$Year <- get_year 
-#   assign(paste0("adm", "_", get_year), current_file)
-# }
+for (i in 1:length(adm_csvs)) {
+  current_file <- read.csv(paste0(path_to_raw, "/", adm_csvs[i]), stringsAsFactors=F, header=T, check.names=F)
+  get_year <- unlist(gsub("[^0-9]", "", unlist(adm_csvs[i])), "")
+  get_year <- as.numeric(get_year) + 2000
+  current_file$Year <- get_year
+  assign(paste0("adm", "_", get_year), current_file)
+}
 
 #Find all df with "adm_"
 dfs <- ls()[sapply(mget(ls(), .GlobalEnv), is.data.frame)]
@@ -62,6 +62,8 @@ for (i in 1:length(adm_files)) {
 subtowns <- read.csv(paste0(path_to_raw, "/", "subtowns.csv"), stringsAsFactors=F, header=T, check.names=F)
 
 names(adm_data)[names(adm_data) == "Town"] <- "Subtown"
+
+adm_data$Subtown[adm_data$Subtown == "Total"] <- "Connecticut"
 
 adm_data_merged <- merge(adm_data, subtowns, by = "Subtown", all.x=T)
 
@@ -87,15 +89,13 @@ adm_data_merged_fips[cols][adm_data_merged_fips[cols] == "-"] <- NA
 adm_data_merged_fips[cols] <- sapply(adm_data_merged_fips[cols],as.numeric)
 
 #Roll up subtowns
-adm_data_merged_fips <- adm_data_merged_fips %>% 
+adm_data_merged_fips <- unique(adm_data_merged_fips %>% 
   group_by(Town, Year) %>% 
   mutate(`Mental Health` = sum(`MH Only`), 
          `Substance Abuse` = sum(`SA Only`), 
          `Mental Health and Substance Abuse` = sum(`MH & SA`), 
          `Total Num` = sum(Total)) %>% 
-  select(Town, FIPS, `Mental Health`, `Substance Abuse`, `Mental Health and Substance Abuse`, `Total Num`)
-
-adm_data_merged_fips <- unique(adm_data_merged_fips)
+  select(Town, FIPS, `Mental Health`, `Substance Abuse`, `Mental Health and Substance Abuse`, `Total Num`))
 
 #Backfill years (for those towns that do not have complete years data)
 years <- c("2010", 
@@ -103,9 +103,9 @@ years <- c("2010",
            "2012", 
            "2013",
            "2014",
-           "2015"
-           # ,
-           # "2016"
+           "2015",
+           "2016"
+           #, "2017"
            )
 
 backfill <- expand.grid(
@@ -118,10 +118,9 @@ adm_data_backfill <- merge(adm_data_merged_fips, backfill, all.y=T)
 #Merge FIPS back in
 adm_data_backfill_fips <- merge(adm_data_backfill, fips, by = "Town", all.x=T)
 
-#Clean up columns and rows (remove CT) and calculate percents
+#Clean up columns/rows and calculate percents
 adm_data_clean <- adm_data_backfill_fips %>% 
   select(Town, FIPS.y, Year, `Mental Health`, `Substance Abuse`, `Mental Health and Substance Abuse`, `Total Num`) %>% 
-  filter(Town != "Connecticut") %>% 
   rename(FIPS = FIPS.y, Total = `Total Num`) %>% 
   mutate(`Mental Health Percent` = round((`Mental Health` / Total)*100, 2),
          `Substance Abuse Percent` = round((`Substance Abuse` / Total)*100, 2),
@@ -184,7 +183,6 @@ adm_data_long <- melt(
 adm_data_long$Type <- as.character(adm_data_long$Type)
 
 #Assign Admission Type, Measure Type, and Variable columns
-
 adm_data_long$`Admission Type` <- NA
 find_mh <- c("Mental Health", "MH ")
 adm_data_long$`Admission Type`[grep(paste(find_mh, collapse="|"), adm_data_long$Type)] <- "Mental Health"
@@ -209,7 +207,7 @@ adm_data_long <- adm_data_long %>%
 # Write to File
 write.table(
   adm_data_long,
-  file.path(getwd(), "data", "dmhas_admissions_2015.csv"),
+  file.path(getwd(), "data", "dmhas_admissions_2016.csv"),
   sep = ",",
   row.names = F,
   na = "-9999"
