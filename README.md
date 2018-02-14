@@ -4,8 +4,8 @@ Mental Health and Substance Abuse Treatment Admissions reports the number and ra
 
 Data Source: <http://www.ct.gov/dmhas/cwp/view.asp?a=2913&q=376510>
 
-Admission Data extracted from Annual Statistical Report PDFs using [tabula](http://tabula.technology/)
-Population data from U.S. Census ACS 5-Year Estimates Table B01001
+ - Admission Data extracted from Annual Statistical Report PDFs using [tabula](http://tabula.technology/)
+ - Population data from U.S. Census ACS 5-Year Estimates Table B01001
 
 ## License MIT
 
