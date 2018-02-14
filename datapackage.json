@@ -165,7 +165,7 @@
     },
     "expected_number_of_geographies": {
       "ckan_name": "Expected Number of Unique Geographies",
-      "value": 169,
+      "value": 170,
       "type": "string"
     },
     "default": {
@@ -315,7 +315,22 @@
         "number type": "int",
         "value": 62
       }
-    }
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Andover",
+        "Year": "2016",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Mental Health",
+        "Measure Type": "Number"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 29
+      }
+    }    
   ],
   "dimension_groups" : [
     {

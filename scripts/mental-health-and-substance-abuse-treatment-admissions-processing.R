@@ -78,6 +78,8 @@ fips <- (town_fips_dp$data[[1]])
 #filter using fips list
 adm_data_merged_fips <- merge(fips, adm_data_merged, by="Town", all.x=T)
 
+adm_data_merged_fips <- unique(adm_data_merged_fips)
+
 #Remove subtown column
 adm_data_merged_fips$Subtown <- NULL
 
