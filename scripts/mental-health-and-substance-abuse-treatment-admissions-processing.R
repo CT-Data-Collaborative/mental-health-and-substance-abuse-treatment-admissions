@@ -120,6 +120,14 @@ adm_data_backfill <- merge(adm_data_merged_fips, backfill, all.y=T)
 #Merge FIPS back in
 adm_data_backfill_fips <- merge(adm_data_backfill, fips, by = "Town", all.x=T)
 
+adm_data_clean_unsupp <- adm_data_backfill_fips
+
+#Suppress values less than 15
+adm_data_backfill_fips$`Mental Health`[adm_data_backfill_fips$`Mental Health` > 0 & adm_data_backfill_fips$`Mental Health` <15] <- NA 
+adm_data_backfill_fips$`Substance Abuse`[adm_data_backfill_fips$`Substance Abuse` > 0 & adm_data_backfill_fips$`Substance Abuse` <15] <- NA 
+adm_data_backfill_fips$`Mental Health and Substance Abuse`[adm_data_backfill_fips$`Mental Health and Substance Abuse` > 0 & adm_data_backfill_fips$`Mental Health and Substance Abuse` <15] <- NA 
+adm_data_backfill_fips$`Total Num`[adm_data_backfill_fips$`Total Num` > 0 & adm_data_backfill_fips$`Total Num` <15] <- NA 
+
 #Clean up columns/rows and calculate percents
 adm_data_clean <- adm_data_backfill_fips %>% 
   select(Town, FIPS.y, Year, `Mental Health`, `Substance Abuse`, `Mental Health and Substance Abuse`, `Total Num`) %>% 

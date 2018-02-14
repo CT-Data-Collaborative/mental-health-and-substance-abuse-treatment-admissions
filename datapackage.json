@@ -319,6 +319,21 @@
     {
       "type": "$lookup",
       "filter": {
+        "Town": "Goshen",
+        "Year": "2014",
+        "Variable": "DMHAS Admissions",
+        "Admission Type": "Mental Health and Substance Abuse",
+        "Measure Type": "Number"
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": -9999
+      }
+    },    
+    {
+      "type": "$lookup",
+      "filter": {
         "Town": "Andover",
         "Year": "2016",
         "Variable": "DMHAS Admissions",
