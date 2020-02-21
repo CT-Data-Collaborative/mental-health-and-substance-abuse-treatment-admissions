@@ -106,8 +106,9 @@ years <- c("2010",
            "2013",
            "2014",
            "2015",
-           "2016"
-           #, "2017"
+           "2016",
+           "2017",
+           "2018"
            )
 
 backfill <- expand.grid(
@@ -217,7 +218,7 @@ adm_data_long <- adm_data_long %>%
 # Write to File
 write.table(
   adm_data_long,
-  file.path(getwd(), "data", "dmhas_admissions_2016.csv"),
+  file.path(getwd(), "data", "dmhas_admissions_2018.csv"),
   sep = ",",
   row.names = F,
   na = "-9999"

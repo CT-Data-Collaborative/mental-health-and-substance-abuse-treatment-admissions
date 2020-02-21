@@ -15,13 +15,13 @@
     "web": ""
   }],
   "author":[{
-    "name": "Jenna Daly",
-    "email": "jdaly@ctdata.org",
-    "web": "http://ctdata.org"
+    "name": "CTData Collaborative",
+    "email": "info@ctdata.org",
+    "web": "https://www.ctdata.org"
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/dmhas_admissions_2016.csv",
+    "path": "data/dmhas_admissions_2018.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -77,7 +77,7 @@
       }
     }
   ],
-  "last_modified": "02/14/2018",
+  "last_modified": "02/21/2020",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
@@ -142,12 +142,12 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+      "value": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "2016",
+      "value": "2018",
       "type": "string"
     },
     "disabled_views": {
@@ -173,7 +173,7 @@
       "value": {
         "Measure Type": "Number",
         "Town": "Connecticut",
-        "Year": ["2016"],
+        "Year": ["2018"],
         "Variable": "DMHAS Admissions", 
         "Admission Type": ["Mental Health", "Substance Abuse", "Mental Health and Substance Abuse", "Total"]
       },

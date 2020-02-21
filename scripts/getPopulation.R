@@ -5,7 +5,7 @@ source('./scripts/acsHelpers.R')
 # Get geography object for CT and subcounty divisions
 acsdata <- getACSData(
     getCTGeos("town"),
-    yearList = 2010:2016,
+    yearList = 2010:2018,
     table = "B01001"
 )
 
@@ -33,6 +33,7 @@ for (data in acsdata) {
     )
     
     estimates$`Age Range`[estimates$`Age Range` == "HD01_VD01.Estimate; Total:"] <- "Total"
+    estimates$`Age Range`[estimates$`Age Range` == "B01001_001E.Estimate!!Total"] <- "Total"
 
     moes <- data.table(
         FIPS = datafips$fips,
@@ -50,6 +51,7 @@ for (data in acsdata) {
     )
     
     moes$`Age Range`[moes$`Age Range` == "HD01_VD01.Estimate; Total:"] <- "Total"
+    moes$`Age Range`[moes$`Age Range` == "B01001_001E.Estimate!!Total"] <- "Total"
     
     setkey(estimates, FIPS, Year, `Age Range`)
     setkey(moes, FIPS, Year, `Age Range`)
